@@ -1,0 +1,7 @@
+.dvt
+.vscode
+build
+.Xil
+*.jou
+*.log
+*.str
