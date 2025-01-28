@@ -11,9 +11,13 @@
  * HISTORY:
  * 1 Jan 2016, RS - initial version
  * 18 Jan 2023, LK - ported to SystemVerilog
+ * 24 Jan 2025, KB - added FREQ parameter, modified LOOP_COUNTER
  *
  *******************************************************************************/
 module clk_divider
+    #( parameter
+        FREQ = 100     //Frequency divider parameter 
+     )
     (
         input  wire  clk100MHz, // input clock 100 MHz
         input  wire  rst,       // async reset active high
@@ -21,7 +25,7 @@ module clk_divider
     );
 
     // when the counter should restart from zero
-    localparam LOOP_COUNTER_AT = 1_000_000 / 2 ;
+    localparam LOOP_COUNTER_AT = 100_000_000 / (FREQ * 2) ;
 
     logic [clog2(LOOP_COUNTER_AT)-1:0] count;
 

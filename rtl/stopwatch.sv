@@ -11,6 +11,8 @@
  * HISTORY:
  * 4 Jan 2016, RS - initial version
  * 18 Jan 2023, LK - ported to SystemVerilog
+ * 24 Jan 2025, KB - added 4'th digit to 7-seg display 
+ * 24 Jan 2025, KB - added FREQ parameter for clk_divider
  *
  *******************************************************************************/
 module stopwatch
@@ -30,19 +32,34 @@ module stopwatch
 //------------------------------------------------------------------------------
 // clock divider to produce stopwatch 100 Hz clock from 100 MHz external clock
 
-    clk_divider u_clk_divider_main
+    clk_divider
+    #(
+        .FREQ(100)     //Frequency divider parameter 
+    ) 
+    u_clk_divider_main
+    (
+        .clk100MHz(clk100MHz), //input clock 100 MHz
+        .rst (rst),            //async reset active high 
+        .clk_div (clk100Hz)
+    );
+    
+    clk_divider
+    #(
+        .FREQ(200)     //Frequency divider parameter 
+    )
+     u_clk_divider_display
     (
         .clk100MHz(clk100MHz), //input clock 100 MHz
         .rst (rst),            //async reset active high
-        .clk_div (clk100Hz)
+        .clk_div (clkDisplay)
     );
 
 //------------------------------------------------------------------------------
 // stopwatch core - 16 bit binary counter
 
-    wire [11:0] counter_bin; // connecting binary counter to binary-to-BCD converter
+    wire [15:0] counter_bin; // connecting binary counter to binary-to-BCD converter
 
-    counter #(.N(12)) u_counter
+    counter #(.N(16)) u_counter
     (
         .clk (clk100Hz), //posedge active clock
         .rst (rst),      //async reset active HIGH
@@ -56,14 +73,17 @@ module stopwatch
 
     wire [3:0]  bcd0;        // LSB
     wire [3:0]  bcd1;
-    wire [3:0]  bcd2;        // MSB
+    wire [3:0]  bcd2;        
+    wire [3:0]  bcd3;        // MSB
+
 
     bin2bcd u_bin2bcd
     (
         .bin (counter_bin),
         .bcd0(bcd0),
         .bcd1(bcd1),
-        .bcd2(bcd2)
+        .bcd2(bcd2),
+        .bcd3(bcd3)
     );
 
 //------------------------------------------------------------------------------
@@ -71,12 +91,12 @@ module stopwatch
 
     sseg_x4 u_sseg_x4
     (
-        .clk (clk100Hz), //posedge active clock
+        .clk (clkDisplay), //posedge active clock
         .rst (rst),      //async reset active HIGH
         .bcd0 (bcd0),    //bcd inputs
         .bcd1 (bcd1),
         .bcd2 (bcd2),
-        .bcd3 (4'hf),
+        .bcd3 (bcd3),
         .sseg_ca(sseg_ca),
         .sseg_an(sseg_an)
     );

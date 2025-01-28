@@ -1,2 +1,0 @@
-// zmien ponizsza linijke na TAK, jesli zadanie jest gotowe do sprawdzenia
-NIE
