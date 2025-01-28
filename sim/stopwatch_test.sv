@@ -12,6 +12,7 @@
  * HISTORY:
  * 2 Jan 2016, RS - initial version
  * 18 Jan 2023, LK - ported to SystemVerilog
+ * 28 Jan 2025, KB - added midstop test 
  *
  *******************************************************************************/
 module stopwatch_test();
@@ -20,6 +21,7 @@ module stopwatch_test();
     logic          t_rst;
     logic          t_start;
     logic          t_stop;
+    logic          t_midstop;
     wire    [6:0]  t_sseg_ca;
     wire    [3:0]  t_sseg_an;
     wire    [15:0] t_sseg_display;
@@ -34,6 +36,7 @@ module stopwatch_test();
         .rst (t_rst),
         .start (t_start),
         .stop (t_stop),
+        .midstop (t_midstop),
         //7-segment display control
         .sseg_ca (t_sseg_ca),
         .sseg_an (t_sseg_an)
@@ -58,6 +61,7 @@ module stopwatch_test();
         @(negedge t_clk100MHz);
         t_start            = 0;
         t_stop             = 0;
+        t_midstop          = 0;
         // reset
         t_rst              = 1;
         @(negedge t_clk100MHz);
@@ -73,6 +77,29 @@ module stopwatch_test();
         // wait
         repeat(500) #(MSEC);
 
+        // stop stopwatch
+        t_stop             = 1;
+        #(10*MSEC); t_stop = 0;
+        
+        t_start            = 1;
+        #(10*MSEC) t_start = 0;
+
+        // wait
+        repeat(500) #(MSEC);
+
+        // stop stopwatch
+        t_midstop          = 1;
+        #(10*MSEC); t_stop = 0;
+        
+        // wait
+        repeat(500) #(MSEC);
+        
+        t_start            = 1;
+        #(10*MSEC) t_start = 0;
+        
+        // wait
+        repeat(500) #(MSEC);
+        
         // stop stopwatch
         t_stop             = 1;
         #(10*MSEC); t_stop = 0;

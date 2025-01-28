@@ -13,6 +13,7 @@
  * 18 Jan 2023, LK - ported to SystemVerilog
  * 24 Jan 2025, KB - added 4'th digit to 7-seg display 
  * 24 Jan 2025, KB - added FREQ parameter for clk_divider
+ * 28 Jan 2025, KB - added midpoint functionality
  *
  *******************************************************************************/
 module stopwatch
@@ -21,6 +22,7 @@ module stopwatch
         input  wire       rst,       // asynchronous reset active HIGH
         input  wire       start,     // start button for the stopwatch
         input  wire       stop,      // stop button for the stopwatch
+        input  wire       midstop,      // midstop button for the stopwatch
 
         // 7-segment display control (common anode)
         output wire [6:0] sseg_ca,   // segments (active LOW)
@@ -65,7 +67,8 @@ module stopwatch
         .rst (rst),      //async reset active HIGH
         .start (start),  //when 1 counter starts counting
         .stop (stop),    //when 1 counter stops counting
-        .counter_value(counter_bin)
+        .midstop (midstop),    //when 1 counter enters midstop
+        .disp_counter_value(counter_bin)
     );
 
 //------------------------------------------------------------------------------
