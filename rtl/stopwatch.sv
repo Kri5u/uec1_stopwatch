@@ -14,6 +14,7 @@
  * 24 Jan 2025, KB - added 4'th digit to 7-seg display 
  * 24 Jan 2025, KB - added FREQ parameter for clk_divider
  * 28 Jan 2025, KB - added midpoint functionality
+ * 30 Jan 2025, KB - added minute diode BCD display functionality
  *
  *******************************************************************************/
 module stopwatch
@@ -26,7 +27,9 @@ module stopwatch
 
         // 7-segment display control (common anode)
         output wire [6:0] sseg_ca,   // segments (active LOW)
-        output wire [3:0] sseg_an    // anode enable (active LOW)
+        output wire [3:0] sseg_an,    // anode enable (active LOW)
+        //diode BCD display
+        output wire [3:0] diode     
     );
 
     wire        clk100Hz;    // main stopper clock
@@ -87,6 +90,12 @@ module stopwatch
         .bcd1(bcd1),
         .bcd2(bcd2),
         .bcd3(bcd3)
+    );
+    
+    bin2diode u_bin2diode
+    (
+        .bin (counter_bin),
+        .diode (diode)
     );
 
 //------------------------------------------------------------------------------

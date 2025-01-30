@@ -36,6 +36,7 @@ proc create_new_project {project target top_module} {
     read_verilog {
         rtl/bcd2sseg.sv
         rtl/bin2bcd.sv
+        rtl/bin2diode.sv
         rtl/clk_divider.sv
         rtl/counter.sv
         rtl/ring_counter.sv

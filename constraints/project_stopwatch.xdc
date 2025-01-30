@@ -69,14 +69,14 @@ create_clock -period 10.000 -name sys_clk_pin -waveform {0.000 5.000} -add [get_
 # set_property IOSTANDARD LVCMOS33 [get_ports {LED[10]}]
 # set_property PACKAGE_PIN U3 [get_ports {LED[11]}]
 # set_property IOSTANDARD LVCMOS33 [get_ports {LED[11]}]
-# set_property PACKAGE_PIN P3 [get_ports {LED[12]}]
-# set_property IOSTANDARD LVCMOS33 [get_ports {LED[12]}]
-# set_property PACKAGE_PIN N3 [get_ports {LED[13]}]
-# set_property IOSTANDARD LVCMOS33 [get_ports {LED[13]}]
-# set_property PACKAGE_PIN P1 [get_ports {LED[14]}]
-# set_property IOSTANDARD LVCMOS33 [get_ports {LED[14]}]
-# set_property PACKAGE_PIN L1 [get_ports {LED[15]}]
-# set_property IOSTANDARD LVCMOS33 [get_ports {LED[15]}]
+set_property PACKAGE_PIN P3 [get_ports {diode[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {diode[0]}]
+set_property PACKAGE_PIN N3 [get_ports {diode[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {diode[1]}]
+set_property PACKAGE_PIN P1 [get_ports {diode[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {diode[2]}]
+set_property PACKAGE_PIN L1 [get_ports {diode[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {diode[3]}]
 
 
 #7 segment display
